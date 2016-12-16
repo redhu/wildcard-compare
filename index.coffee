@@ -1,19 +1,25 @@
 # =============================
-# 主要用于通配符比对
+# 此文件主要实现通配符比对
+# compare('1','>=1') => true
 # =============================
 
+# =============================
+# 此方法用于记忆,
+# 把具有相同参数的运算结果缓存起来,
+# 用于提高运算效率
+# =============================
 memoize = (func)->
   cache = {}
+  config = require('./memoize.config')
   addressArr = []
-  maxLen = 10000
   setInterval(->
-    while addressArr.length > maxLen
+    while addressArr.length > config.cache_keys_max
       address = addressArr.shift()
       delete cache[address]
-  ,60 * 60 * 1000)
+  , config.cache_keys_max)
 
   return (args...)->
-    address = args.join('_')
+    address = args.join('#@$@#$')
     unless cache.hasOwnProperty(address)
       cache[address] = func.apply(@, args)
       addressArr.push(address)
@@ -170,70 +176,9 @@ compare = (str, condStr, ifFuncCache = true)->
       break
   return ret
 
-
 module.exports = {
   compare : compare
   compile : condCompile
 }
 
-#=============================================
-# 单元测试
-#=============================================
-test = ->
-  testArr = [
-    ['', '', true]
-    ['abc', '', false]
-    ['abc', '+abc', true]
-    ['abcd', '+abc', false]
-    ['abc', '+abcd', false]
-    ['abc', '=abc', true]
-    ['abc', '=abcd', false]
-    ['abcd', '=abc', false]
-    ['abc', '<>abc', false]
-    ['abc', '<>abcd', true]
-    ['abc', '-abc', false]
-    ['abc', '-abcd', true]
-    ['abc', '>abc', false]
-    ['2', '>1', true]
-    ['2', '>1.1', true]
-    ['abc', '>=abc', true]
-    ['2', '>=1', true]
-    ['abc', '<abc', false]
-    ['abc', '<abcd', true]
-    ['1', '<2', true]
-    ['abc', '<=abc', true]
-    ['abc', '<=abcd', true]
-    ['1.3.1', '=1.%.1', true]
-    ['1.3.1', '=%1.3', false]
-    ['1.3.1', '-1.%.1', false]
-    ['1.3.12', '+1.3.1%', true]
-    ['1.1', '/1.*1/', true]
-    ['1.1', '/2\\.1/', false]
-    ['abc', '=abcd,>bcd;=bcd;=abcd;/abcd/;=ab%;', true]
-    ['abc', '=abcd;=bcd;=abcd;/a.*c/;=ab%d;', true]
-  ]
-
-  for t in testArr
-    str = t[0]
-    value = t[1]
-    ret = compare(str, value)
-    if ret is t[2]
-      console.info 'success', str, value, ret
-    else
-      console.error 'failed', str, value, ret
-
-  d0 = new Date()
-  for t in testArr
-    for i in [1...100000]
-      compare(t[0], t[1])
-  d1 = new Date()
-  for t in testArr
-    for i in [1...100000]
-      compare(t[0], t[1], false)
-  d2 = new Date()
-  console.log 'used cache:', d1 - d0, 'ms, not used cache:', d2 - d1, 'ms.'
-
-if /index/.test(process.argv[1])
-  test()
-  process.exit(-1)
 

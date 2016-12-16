@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "memoize.config.js",
+  "sourceRoot": "",
+  "sources": [
+    "memoize.config.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;EAAA,MAAM,CAAC,OAAP,GAAiB;IAGf,cAAA,EAAiB,KAHF;IAMf,yBAAA,EAA4B,EAAA,GAAK,IANlB;;AAAjB"
+}
