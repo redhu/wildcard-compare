@@ -1,7 +1,7 @@
-## 安装
+## install
 npm install wildcard-compare
 
-## 测试代码
+## test
 npm test
 
 ## api
@@ -44,11 +44,7 @@ compare('abc', '=abcd;=bcd;=abcd;/a.*c/;=ab%d;') => true
 compare 300000 times, used cache cost 130ms, and not used cache cost 1445ms.
 ```
 
-
-## 通配符配置规则
-----------------------------
-
-### 基本单元规则
+### item rules
 ```
 {
     +%s : equal
@@ -60,31 +56,31 @@ compare 300000 times, used cache cost 130ms, and not used cache cost 1445ms.
     <%s : less than
     <=%s : less than or equal
     % : like
-    /%s/ : 正则表达式
+    /%s/ : regular
 }
 ```
 
-### 组规则
+### group rules
 ```
 {
-    , : 与
-    ; : 或
+    , : and
+    ; : or
 }
 ```
-其中，'与'的权重大于'或'
+"and" has highter weight then "or"
 
-### 示例
-1. 大于4.0且小于=6.0或者所有8.*版本
+### example
+1. greate than 4.0 and less than or equals 6.0 or like 8.*
 ```
 >4.0,<=6.0;8.%
 ```
 
-2. 等于wps或者et
+2. equals wps or equals et
 ```
 =wps;=et
 ```
 
-3. 首字母不能为大写字母的字符串
+3. first letter can't be capital
 ```
 /^[^A-Z].*/
 ```
