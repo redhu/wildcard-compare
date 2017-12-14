@@ -1,3 +1,5 @@
+高效javascript统配符比较
+
 ## install
 npm install wildcard-compare
 
