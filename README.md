@@ -1,5 +1,7 @@
 高效javascript通配符比较
 
+----------------------------------------
+
 ## install
 npm install wildcard-compare
 
@@ -8,7 +10,7 @@ npm test
 
 ## api
 ```
-compare(string, wildcard, memoize = false)
+compare(string /*字符串*/, wildcard/*通配符*/, memoize/*是否记忆*/)
 ```
 
 ## eg
